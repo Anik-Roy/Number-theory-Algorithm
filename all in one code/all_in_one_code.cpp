@@ -49,7 +49,8 @@ void seive()  // by this algorithm, we can find prime upto SIZE_N
         }
     }
     indx = 0;
-    for(int i = 2; i <= SIZE_N; i++) {
+    prime[indx++] = 2;
+    for(int i = 3; i <= SIZE_N; i+=2) {
         if(status[i>>1] == 0) {
             prime[indx++] = i; // prime array is used to store all prime number upto SIZE_N
         }
@@ -120,6 +121,25 @@ int sum_of_divisor(int n)
     }
 }
 
+int Goldbach_conjecture(int n) // this algorithm is used to find such prime pair p1 and p2 so that p1+p2 = n
+{
+    int res = 0;
+    for(int i = 2; i <= n/2; i++) {
+        int d = n-i;
+        if(i == 2) {
+            if((n-i)%2 != 0 && status[d>>1] == 0) {
+                res++;
+                cout << i << " " << n-i << endl;
+            }
+        }
+        else if(i%2 != 0 && (n-i)!= 0 && status[i>>1] == 0 && status[(n-i)>>1] == 0) {
+            res++;
+            cout << i << " " << n-i << endl;
+        }
+    }
+    return res;
+}
+
 int main()
 {
     seive();
@@ -145,5 +165,10 @@ int main()
 
     int sum = sum_of_divisor(n);
     cout << "Sum of divisors of " << n << ": " << sum << endl;
+
+    cout << "Enter any number >=4: ";
+    cin >> n;
+    int res = Goldbach_conjecture(n);
+    cout << "The Goldbach's conjecture is: " << res << endl;
     return 0;
 }
